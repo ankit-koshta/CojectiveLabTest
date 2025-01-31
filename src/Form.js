@@ -1,7 +1,28 @@
-import * as React from "react";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Input,
+  MenuItem,
+  Select,
+  Typography,
+  Modal,
+} from "@mui/material";
 
-export const Form = () => {
-  const [formData, setFormData] = React.useState({
+export const Form = ({ flag, handleClose }) => {
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     deadline: "",
@@ -13,50 +34,76 @@ export const Form = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("formData>>>>", formData);
-  };
+  const handleSubmit = () => {};
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <div>
-        <label htmlFor="title">Title</label>
-        <input
-          value={formData.title}
-          name="title"
-          label="title"
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <div>
-        <label htmlFor="title">Description</label>
-        <input
-          value={formData.description}
-          name="description"
-          label="description"
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <div>
-        <label htmlFor="title">Deadline</label>
-        <input
-          value={formData.deadline}
-          name="deadline"
-          label="deadline"
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <div>
-        <label htmlFor="title">Priority</label>
-        <input
-          value={formData.priority}
-          name="priority"
-          label="priorty"
-          onChange={(e) => handleChange(e)}
-        />
-      </div>
-      <button>Submit</button>
-    </form>
+    <Modal
+      open={flag}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={modalStyle}>
+        <form onSubmit={(event) => handleSubmit(event)}>
+          <Box sx={{ display: "flex", padding: "10px 0" }}>
+            <Typography
+              sx={{ minWidth: "100px", fontWeight: "bold", textAlign: "left" }}
+            >
+              Title
+            </Typography>
+            <Input
+              aria-describedby="my-helper-text"
+              name="title"
+              value={formData.title}
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+          <Box sx={{ display: "flex", padding: "10px 0" }}>
+            <Typography
+              sx={{ minWidth: "100px", fontWeight: "bold", textAlign: "left" }}
+            >
+              Description
+            </Typography>
+            <Input
+              aria-describedby="my-helper-text"
+              name="description"
+              value={formData.description}
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+          <Box sx={{ display: "flex", padding: "10px 0" }}>
+            <Typography
+              sx={{ minWidth: "100px", fontWeight: "bold", textAlign: "left" }}
+            >
+              Deadline
+            </Typography>
+            <Input
+              aria-describedby="my-helper-text"
+              name="deadline"
+              value={formData.deadline}
+              onChange={(e) => handleChange(e)}
+            />
+          </Box>
+          <Box sx={{ display: "flex", padding: "10px 0" }}>
+            <Typography
+              sx={{ minWidth: "100px", fontWeight: "bold", textAlign: "left" }}
+            >
+              Priority
+            </Typography>
+            <Select
+              value={formData.priority}
+              variant="standard"
+              name="priority"
+              onChange={(e) => handleChange(e)}
+            >
+              <MenuItem value={"medium"}>Medium</MenuItem>
+              <MenuItem value={"high"}>High</MenuItem>
+              <MenuItem value={"very-high"}>Very High</MenuItem>
+            </Select>
+          </Box>
+          <Button variant="outlined">Add Task</Button>
+        </form>
+      </Box>
+    </Modal>
   );
 };

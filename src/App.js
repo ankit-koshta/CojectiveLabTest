@@ -1,43 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form } from "./Form";
-import axios from "axios";
-import Cart from "./Cart";
+import { Box, Button, Typography } from "@mui/material";
+import TaskList from "./TaskList";
 
 const App = () => {
-  const [data, setData] = useState([
-    {
-      title: "Task",
-      description: "frontend",
-      deadline: "4pm",
-      priority: "high",
-    },
-  ]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const getData = async () => {
-    // let res = await axios.get("url");
-    // setData(res.data);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
   return (
-    <div>
-      
-      <div>
-        <button>Add</button>
-        <button>View Detail</button>
-        <button>Edit</button>
-        <button>Delete</button>
-        <button>Mark task as complete</button>
-      </div>
-      <div style={{marginBottom:"1rem"}}>
-      {data.map((el, i) => {
-        return <Cart key={i} el={el} />;
-      })}
-      </div>
-      <Form />
-    </div>
+    <Box
+      sx={{ textAlign: "center", backgroundColor: "white", padding: "2rem" }}
+    >
+      <Typography variant="h4" gutterBottom>
+        Welcome to Task Management System
+      </Typography>
+      <Box sx={{ display: "flex", gap: 1, margin: "15px 0" }}>
+        <Button variant="contained" onClick={handleOpen}>
+          Add
+        </Button>
+        <Button variant="contained">Edit</Button>
+        <Button variant="contained">Delete</Button>
+        <Button variant="contained">Completed</Button>
+      </Box>
+      <TaskList />
+      <Form flag={open} handleClose={handleClose} />
+    </Box>
   );
 };
 
